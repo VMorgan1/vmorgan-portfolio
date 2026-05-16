@@ -537,11 +537,22 @@
             <h2 id="bookCallTitle">Book a call</h2>
           </div>
           <button class="icon-button" id="bookCallClose" type="button" aria-label="Close book call form">
-            Ã—
+            ×
           </button>
         </div>
 
         <div class="service-order-fields">
+          <label class="field">
+            <span>Name</span>
+            <input
+              class="text-input"
+              id="bookCallName"
+              name="name"
+              type="text"
+              placeholder="Your name"
+              required
+            />
+          </label>
           <label class="field">
             <span>Email address</span>
             <input
@@ -562,11 +573,33 @@
         <div class="service-order-actions">
           <button class="button" type="submit">Submit and book call</button>
         </div>
+        <div class="service-submit-success" id="bookCallSuccess" hidden>
+          <span class="success-pill">Submitted</span>
+          <h2>Check the Cal.com tab to finish booking.</h2>
+          <p>
+            Your details have been submitted. Make sure you set up the call in the page that opened.
+            Looking forward to what we will build.
+          </p>
+          <button class="button button-secondary" type="button" data-close-success="book-call">Back to site</button>
+        </div>
       </form>
     </dialog>
 
     <dialog class="service-order-modal" id="serviceOrderModal">
-      <form class="modal-card service-order-card" id="serviceOrderForm">
+      <form
+        class="modal-card service-order-card"
+        id="serviceOrderForm"
+        name="service-order"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+      >
+        <input type="hidden" name="form-name" value="service-order" />
+        <input type="hidden" id="serviceOrderServiceName" name="service_name" value="" />
+        <input type="hidden" id="serviceOrderSubmittedAt" name="submitted_at" value="" />
+        <p class="hidden-field">
+          <label>Do not fill this out if you are human: <input name="bot-field" /></label>
+        </p>
         <div class="modal-head">
           <div>
             <p class="eyebrow" id="order-service">Order service</p>
@@ -617,6 +650,15 @@
 
         <div class="service-order-actions">
           <button class="button" type="submit">Submit and book a call</button>
+        </div>
+        <div class="service-submit-success" id="serviceOrderSuccess" hidden>
+          <span class="success-pill">Order submitted</span>
+          <h2>Your service request is in.</h2>
+          <p>
+            I have received your details. Make sure you set up the call in the Cal.com page that opened
+            so we can talk through the next steps. Looking forward to what we will build.
+          </p>
+          <button class="button button-secondary" type="button" data-close-success="service-order">Back to site</button>
         </div>
       </form>
     </dialog>

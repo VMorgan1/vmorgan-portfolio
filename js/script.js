@@ -441,16 +441,19 @@ function openServiceOrderModal(serviceIndex) {
   selectedServiceIndex = serviceIndex;
   const service = services[serviceIndex];
   serviceOrderTitle.textContent = service.name;
-  serviceOrderServiceName.value = service.name;
+  if (serviceOrderServiceName) serviceOrderServiceName.value = service.name;
   serviceOrderForm.classList.remove("is-submitted");
-  serviceOrderContent.hidden = false;
-  serviceOrderSuccess.hidden = true;
+  if (serviceOrderContent) serviceOrderContent.hidden = false;
+  if (serviceOrderSuccess) serviceOrderSuccess.hidden = true;
+  if (!serviceOrderContent) {
+    setFallbackFormContentVisibility(serviceOrderForm, true, serviceOrderSuccess);
+  }
   const submitButton = serviceOrderForm.querySelector('[type="submit"]');
   if (submitButton instanceof HTMLButtonElement) {
     submitButton.disabled = false;
     submitButton.textContent = "Submit and book a call";
   }
-  orderTimeline.value = service.turnaround;
+  if (orderTimeline) orderTimeline.value = service.turnaround;
   serviceOrderModal.showModal();
 }
 
@@ -462,19 +465,22 @@ function openBookCallModal(serviceIndex) {
   selectedBookCallServiceIndex = serviceIndex;
   const service = services[serviceIndex];
   bookCallTitle.textContent = `Book a call for ${service.name}`;
-  bookCallServiceName.value = service.name;
+  if (bookCallServiceName) bookCallServiceName.value = service.name;
   bookCallForm.classList.remove("is-submitted");
-  bookCallContent.hidden = false;
-  bookCallSuccess.hidden = true;
+  if (bookCallContent) bookCallContent.hidden = false;
+  if (bookCallSuccess) bookCallSuccess.hidden = true;
+  if (!bookCallContent) {
+    setFallbackFormContentVisibility(bookCallForm, true, bookCallSuccess);
+  }
   const submitButton = bookCallForm.querySelector('[type="submit"]');
   if (submitButton instanceof HTMLButtonElement) {
     submitButton.disabled = false;
     submitButton.textContent = "Submit and book call";
   }
-  bookCallName.value = "";
-  bookCallEmail.value = "";
+  if (bookCallName) bookCallName.value = "";
+  if (bookCallEmail) bookCallEmail.value = "";
   bookCallModal.showModal();
-  bookCallName.focus();
+  (bookCallName || bookCallEmail)?.focus();
 }
 
 function closeBookCallModal() {
@@ -517,9 +523,32 @@ function sendBookingWindowToCal(bookingWindow) {
   window.location.href = CAL_BOOKING_URL;
 }
 
+function setFallbackFormContentVisibility(form, isVisible, success) {
+  if (!form) return;
+
+  form
+    .querySelectorAll(".modal-head, .service-order-fields, .service-order-note, .service-order-actions")
+    .forEach((element) => {
+      element.hidden = !isVisible;
+    });
+
+  if (success) {
+    success.hidden = isVisible;
+  }
+}
+
 function showFormSuccess(content, success) {
-  content.hidden = true;
-  success.hidden = false;
+  if (content) {
+    content.hidden = true;
+  }
+
+  if (success) {
+    if (!content) {
+      setFallbackFormContentVisibility(success.closest("form"), false, success);
+    }
+    success.hidden = false;
+    return;
+  }
 }
 
 function showServiceOrderSuccess() {
@@ -653,13 +682,13 @@ bookCallForm.addEventListener("submit", async (event) => {
   const bookingWindow = createBookingWindow();
   const payload = {
     serviceName: service.name,
-    name: bookCallName.value.trim(),
+    name: bookCallName?.value.trim() || "",
     email: bookCallEmail.value.trim(),
     submittedAt: new Date().toISOString(),
   };
 
-  bookCallServiceName.value = payload.serviceName;
-  bookCallSubmittedAt.value = payload.submittedAt;
+  if (bookCallServiceName) bookCallServiceName.value = payload.serviceName;
+  if (bookCallSubmittedAt) bookCallSubmittedAt.value = payload.submittedAt;
 
   if (submitButton instanceof HTMLButtonElement) {
     submitButton.disabled = true;
@@ -696,8 +725,8 @@ serviceOrderForm.addEventListener("submit", async (event) => {
     submittedAt: new Date().toISOString(),
   };
 
-  serviceOrderServiceName.value = payload.serviceName;
-  serviceOrderSubmittedAt.value = payload.submittedAt;
+  if (serviceOrderServiceName) serviceOrderServiceName.value = payload.serviceName;
+  if (serviceOrderSubmittedAt) serviceOrderSubmittedAt.value = payload.submittedAt;
 
   if (submitButton instanceof HTMLButtonElement) {
     submitButton.disabled = true;

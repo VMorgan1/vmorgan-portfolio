@@ -36,7 +36,7 @@ function loadCaseStudies() {
 const services = [
   {
     name: "Landing page design",
-    rate: 750,
+    rate: 480,
     turnaround: "3-5 days",
     description:
       "A clear, polished landing page experience that helps people understand the offer and take the next step.",
@@ -46,7 +46,7 @@ const services = [
   },
   {
     name: "Mobile app design",
-    rate: 2800,
+    rate: 1900,
     turnaround: "1-2 weeks",
     description:
       "Thoughtful app screens and flows for mobile products that need to feel simple, useful, and ready for real people.",
@@ -56,7 +56,7 @@ const services = [
   },
   {
     name: "SaaS or end-to-end product design",
-    rate: 5450,
+    rate: 2800,
     turnaround: "2-4 weeks",
     description:
       "Support from early product thinking through visual design, responsive states, and build-ready handoff.",

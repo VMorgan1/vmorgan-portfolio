@@ -54,6 +54,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -2898,5 +2899,4 @@ select:focus-visible {
     object-position: center top;
   }
 }
-
 

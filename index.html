@@ -20,12 +20,13 @@
       crossorigin
     />
     <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./js/analytics.js"></script>
   </head>
   <body>
     <div class="page-shell">
       <header class="topbar">
         <a class="brand" href="#hero" aria-label="VMorgan.design home">
-          <img class="brand-logo" src="./assets/Logo.svg" alt="" />
+          <img class="brand-logo" src="./assets/Logo.svg" width="64" height="40" alt="" />
           <span class="brand-copy">
             <strong>VMorgan Design</strong>
           </span>
@@ -42,7 +43,7 @@
         </div>
         <details class="nav-menu">
           <summary class="nav-menu-toggle" aria-label="Open navigation menu">
-            <img src="./assets/menu.svg" alt="" />
+            <img src="./assets/menu.svg" width="24" height="24" alt="" />
           </summary>
           <div class="nav-menu-panel">
             <nav class="main-nav" aria-label="Mobile primary">
@@ -89,6 +90,10 @@
               <img
                 class="portrait-image"
                 src="./assets/VMorgan image.avif"
+                width="720"
+                height="900"
+                fetchpriority="high"
+                decoding="async"
                 alt="Portrait of Victor Morgan"
               />
             </div>
@@ -141,7 +146,7 @@
                   <h3>Product Designer</h3>
                   <p>Almost Broke (Design Agency)</p>
                 </div>
-                <img class="timeline-logo logo-shadow" src="./assets/Almost Broke.svg" alt="Almost Broke logo" />
+                <img class="timeline-logo logo-shadow" src="./assets/Almost Broke.svg" width="120" height="42" loading="lazy" decoding="async" alt="Almost Broke logo" />
               </div>
               
             </article>
@@ -152,7 +157,7 @@
                   <h3>UIUX Designer</h3>
                   <p>Deeproots Earth (Web3)</p>
                 </div>
-                <img class="timeline-logo logo-shadow" src="./assets/Deeproots.svg" alt="Deeproots Earth logo" />
+                <img class="timeline-logo logo-shadow" src="./assets/Deeproots.svg" width="120" height="42" loading="lazy" decoding="async" alt="Deeproots Earth logo" />
               </div>
               
             </article>
@@ -163,7 +168,7 @@
                   <h3>UIUX Designer</h3>
                   <p>SwiftWings (Aviation- Flight booking Saas)</p>
                 </div>
-                <img class="timeline-logo" src="./assets/Swift Wings.svg" alt="Swift Wings logo" />
+                <img class="timeline-logo" src="./assets/Swift Wings.svg" width="120" height="42" loading="lazy" decoding="async" alt="Swift Wings logo" />
               </div>
               
             </article>
@@ -174,7 +179,7 @@
                   <h3>Product Designer (UIUX)</h3>
                   <p>Second Wallet (Loan Management Solution)</p>
                 </div>
-                <img class="timeline-logo" src="./assets/Second Wallet.svg" alt="Second Wallet logo" />
+                <img class="timeline-logo" src="./assets/Second Wallet.svg" width="120" height="42" loading="lazy" decoding="async" alt="Second Wallet logo" />
               </div>
               
             </article>
@@ -185,7 +190,7 @@
                   <h3>UIUX Designer</h3>
                   <p>HackerX (web3 Coding)</p>
                 </div>
-                <img class="timeline-logo" src="./assets/Hacker X.svg" alt="Hacker X logo" />
+                <img class="timeline-logo" src="./assets/Hacker X.svg" width="120" height="42" loading="lazy" decoding="async" alt="Hacker X logo" />
               </div>
               
             </article>
@@ -212,25 +217,25 @@
           </div>
           <div class="client-band" aria-label="Client logos">
             <span class="client-logo-card">
-              <img src="./assets/Clients/Almost Broke.svg" alt="Almost Broke logo" />
+              <img src="./assets/Clients/Almost Broke.svg" width="168" height="48" loading="lazy" decoding="async" alt="Almost Broke logo" />
             </span>
             <span class="client-logo-card">
-              <img src="./assets/Clients/Edulaunch box.svg" alt="Edulaunch Box logo" />
+              <img src="./assets/Clients/Edulaunch box.svg" width="168" height="48" loading="lazy" decoding="async" alt="Edulaunch Box logo" />
             </span>
             <span class="client-logo-card">
-              <img src="./assets/Clients/Logo.svg" alt="HackerX logo" />
+              <img src="./assets/Clients/Logo.svg" width="168" height="48" loading="lazy" decoding="async" alt="HackerX logo" />
             </span>
             <span class="client-logo-card">
-              <img src="./assets/Clients/News World.svg" alt="News World logo" />
+              <img src="./assets/Clients/News World.svg" width="168" height="48" loading="lazy" decoding="async" alt="News World logo" />
             </span>
             <span class="client-logo-card">
-              <img src="./assets/Clients/Puppylove.svg" alt="Puppylove logo" />
+              <img src="./assets/Clients/Puppylove.svg" width="168" height="48" loading="lazy" decoding="async" alt="Puppylove logo" />
             </span>
             <span class="client-logo-card">
-              <img src="./assets/Clients/Second Wallet.svg" alt="Second Wallet logo" />
+              <img src="./assets/Clients/Second Wallet.svg" width="168" height="48" loading="lazy" decoding="async" alt="Second Wallet logo" />
             </span>
             <span class="client-logo-card">
-              <img src="./assets/Clients/Swift wings.svg" alt="Swift Wings logo" />
+              <img src="./assets/Clients/Swift wings.svg" width="168" height="48" loading="lazy" decoding="async" alt="Swift Wings logo" />
             </span>
           </div>
           <div class="feedback-grid">
@@ -617,11 +622,11 @@
     </dialog>
 
     <script src="./js/explorations-data.js"></script>
-    <script src="./js/case-studies-data.js"></script>
+    <script src="./js/featured-case-studies.js"></script>
     <script src="./js/insights.js"></script>
     <script src="./js/script.js"></script>
-    <script src="./js/smooth-page-scroll.js"></script>
-    <script src="./js/scroll-reveal.js"></script>
-    <script src="./js/active-nav.js"></script>
+    <script src="./js/smooth-page-scroll.js" defer></script>
+    <script src="./js/scroll-reveal.js" defer></script>
+    <script src="./js/active-nav.js" defer></script>
   </body>
 </html>

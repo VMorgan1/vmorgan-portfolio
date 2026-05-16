@@ -4,11 +4,34 @@
   "second-wallet-advanced-loan-management-system",
 ];
 
-const projects = Array.isArray(window.CASE_STUDIES)
-  ? featuredCaseStudySlugs
-      .map((slug) => window.CASE_STUDIES.find((caseStudy) => caseStudy.slug === slug))
-      .filter(Boolean)
-  : [];
+const projects = Array.isArray(window.FEATURED_CASE_STUDIES)
+  ? window.FEATURED_CASE_STUDIES
+  : Array.isArray(window.CASE_STUDIES)
+    ? featuredCaseStudySlugs
+        .map((slug) => window.CASE_STUDIES.find((caseStudy) => caseStudy.slug === slug))
+        .filter(Boolean)
+    : [];
+
+let caseStudiesLoadPromise = null;
+
+function loadCaseStudies() {
+  if (Array.isArray(window.CASE_STUDIES)) {
+    return Promise.resolve(window.CASE_STUDIES);
+  }
+
+  if (caseStudiesLoadPromise) return caseStudiesLoadPromise;
+
+  caseStudiesLoadPromise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = "./js/case-studies-data.js";
+    script.async = true;
+    script.onload = () => resolve(Array.isArray(window.CASE_STUDIES) ? window.CASE_STUDIES : []);
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+
+  return caseStudiesLoadPromise;
+}
 
 const services = [
   {
@@ -156,7 +179,7 @@ function renderProjects() {
     card.dataset.project = String(index);
     card.innerHTML = `
       <div class="project-visual" aria-hidden="true">
-        ${project.coverImage ? `<img class="case-study-cover" src="${project.coverImage}" alt="" loading="lazy" />` : ""}
+        ${project.coverImage ? `<img class="case-study-cover" src="${project.coverImage}" width="1200" height="760" alt="" loading="lazy" decoding="async" />` : ""}
       </div>
       <div class="project-caption">
         <div>
@@ -212,7 +235,7 @@ function renderHomepageInsights() {
           <article class="insight-card" tabindex="0" role="button" data-article="${index}" aria-label="Open insight article">
             ${
               preview
-                ? `<div class="insight-card-visual"><img src="${preview}" alt="${previewAlt}" loading="lazy" /></div>`
+                ? `<div class="insight-card-visual"><img src="${preview}" width="1200" height="900" alt="${previewAlt}" loading="lazy" decoding="async" /></div>`
                 : ""
             }
             <span class="blog-tag">${article.category}</span>
@@ -225,8 +248,16 @@ function renderHomepageInsights() {
     .join("");
 }
 
-function openProjectModal(project) {
-  openArticle(project);
+async function openProjectModal(project) {
+  if (!project) return;
+
+  try {
+    const caseStudies = await loadCaseStudies();
+    const fullProject = caseStudies.find((caseStudy) => caseStudy.slug === project.slug);
+    openArticle(fullProject || project);
+  } catch {
+    openArticle(project);
+  }
 }
 
 function renderCaseStudyServicesCta(href = "#services") {
@@ -269,7 +300,7 @@ function renderBodyBlock(block) {
   if (block.type === "image") {
     return `
       <figure class="article-media">
-        <img src="${block.src}" alt="${block.alt}" />
+        <img src="${block.src}" width="1440" height="900" alt="${block.alt}" loading="lazy" decoding="async" />
       </figure>
     `;
   }
@@ -300,7 +331,9 @@ function openArticle(article) {
   articleDate.textContent = article.date;
   articleCategory.textContent = article.category;
   articlePreface.textContent = article.summary;
-  const articleContent = article.body.map(renderBodyBlock).join("");
+  const articleContent = Array.isArray(article.body)
+    ? article.body.map(renderBodyBlock).join("")
+    : `<p>${article.summary}</p>`;
   articleBody.innerHTML = article.slug
     ? `${articleContent}${renderCaseStudyServicesCta("#services")}`
     : articleContent;
@@ -317,8 +350,9 @@ function renderServices() {
             service.mediaAlt || service.name
           }" muted loop playsinline preload="none" controlsList="nodownload noplaybackrate noremoteplayback" disablepictureinpicture disableremoteplayback>
             <source src="${service.mediaSrc}" type="video/mp4" />
+            <track kind="captions" src="./assets/empty-captions.vtt" srclang="en" label="No speech" default />
           </video>`
-        : `<img class="service-media" src="${service.mediaSrc}" alt="${service.mediaAlt || service.name}" loading="lazy" />`
+        : `<img class="service-media" src="${service.mediaSrc}" width="1200" height="760" alt="${service.mediaAlt || service.name}" loading="lazy" decoding="async" />`
       : "<span>Add image / video / GIF</span>";
     card.innerHTML = `
       <div class="service-media-placeholder${service.mediaSrc ? " has-media" : ""}">
@@ -562,7 +596,7 @@ function renderMasonry() {
     card.setAttribute("aria-label", `Open design exploration: ${design.title}`);
     card.innerHTML = `
       <div class="masonry-visual" aria-hidden="true">
-        <img class="masonry-image" src="${design.image}" alt="" loading="lazy" />
+        <img class="masonry-image" src="${design.image}" width="1200" height="900" alt="" loading="lazy" decoding="async" />
       </div>
       <h3>${design.title}</h3>
     `;
@@ -588,7 +622,7 @@ function openDesignPreview(design) {
   designPreviewDescription.textContent = hasDescription ? design.description : "";
   designPreviewDescription.hidden = !hasDescription;
   designPreviewVisual.innerHTML = `
-    <img class="design-preview-image" src="${design.image}" alt="${design.title}" decoding="async" />
+    <img class="design-preview-image" src="${design.image}" width="1600" height="1200" alt="${design.title}" loading="lazy" decoding="async" />
   `;
 
   const designPostUrl = design.postUrl || design.xUrl || "";

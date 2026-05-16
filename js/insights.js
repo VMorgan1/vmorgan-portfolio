@@ -168,7 +168,7 @@ function renderInsightCards() {
     card.innerHTML = `
       ${
         preview
-          ? `<div class="insight-card-visual"><img src="${preview.src}" alt="${preview.alt}" loading="lazy" /></div>`
+          ? `<div class="insight-card-visual"><img src="${preview.src}" width="1200" height="900" alt="${preview.alt}" loading="lazy" decoding="async" /></div>`
           : ""
       }
       <span class="blog-tag">${article.category}</span>
@@ -207,7 +207,7 @@ function renderBodyBlock(block) {
   if (block.type === "image") {
     return `
       <figure class="article-media">
-        <img src="${block.src}" alt="${block.alt}" />
+        <img src="${block.src}" width="1440" height="900" alt="${block.alt}" loading="lazy" decoding="async" />
       </figure>
     `;
   }

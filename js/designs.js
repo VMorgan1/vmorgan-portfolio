@@ -124,7 +124,7 @@ function renderBodyBlock(block) {
   if (block.type === "image") {
     return `
       <figure class="article-media">
-        <img src="${block.src}" alt="${block.alt}" />
+        <img src="${block.src}" width="1440" height="900" alt="${block.alt}" loading="lazy" decoding="async" />
       </figure>
     `;
   }
@@ -186,7 +186,7 @@ function openExploration(exploration) {
   designPreviewDescription.textContent = hasDescription ? exploration.description : "";
   designPreviewDescription.hidden = !hasDescription;
   designPreviewVisual.innerHTML = `
-    <img class="design-preview-image" src="${exploration.image}" alt="${exploration.title}" />
+    <img class="design-preview-image" src="${exploration.image}" width="1600" height="1200" alt="${exploration.title}" loading="lazy" decoding="async" />
   `;
 
   const explorationPostUrl = exploration.postUrl || exploration.xUrl || "";
@@ -237,7 +237,7 @@ function renderCaseStudies() {
     card.setAttribute("aria-label", `Open case study: ${caseStudy.title}`);
     card.innerHTML = `
       <div class="project-visual" aria-hidden="true">
-        ${caseStudy.coverImage ? `<img class="case-study-cover" src="${caseStudy.coverImage}" alt="" />` : ""}
+        ${caseStudy.coverImage ? `<img class="case-study-cover" src="${caseStudy.coverImage}" width="1200" height="760" alt="" loading="lazy" decoding="async" />` : ""}
       </div>
       <span class="blog-tag">${caseStudy.category}</span>
       <h3>${caseStudy.title}</h3>
@@ -260,7 +260,7 @@ function renderExplorations() {
     card.setAttribute("aria-label", `Open design exploration: ${exploration.title}`);
     card.innerHTML = `
       <div class="masonry-visual" aria-hidden="true">
-        <img class="masonry-image" src="${exploration.image}" alt="" loading="lazy" />
+        <img class="masonry-image" src="${exploration.image}" width="1200" height="900" alt="" loading="lazy" decoding="async" />
       </div>
       <h3>${exploration.title}</h3>
     `;

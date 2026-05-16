@@ -136,9 +136,23 @@
     window.setTimeout(requestRevealCheck, 450);
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initScrollReveal, { once: true });
-  } else {
-    initScrollReveal();
+  function scheduleScrollReveal() {
+    const runWhenIdle = () => {
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(initScrollReveal, { timeout: 1200 });
+        return;
+      }
+
+      window.setTimeout(initScrollReveal, 500);
+    };
+
+    if (document.readyState === "complete") {
+      runWhenIdle();
+      return;
+    }
+
+    window.addEventListener("load", runWhenIdle, { once: true });
   }
+
+  scheduleScrollReveal();
 })();

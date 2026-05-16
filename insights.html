@@ -65,45 +65,6 @@
       </main>
     </div>
 
-    <div class="floating-player-wrap">
-      <section class="track-popup" id="trackPopup" aria-label="Music list" hidden></section>
-      <section class="floating-player" aria-label="Portfolio music player">
-        <button
-          class="player-cover-button"
-          id="trackMenuToggle"
-          type="button"
-          aria-controls="trackPopup"
-          aria-expanded="false"
-          aria-label="Show music list"
-        >
-          <span class="player-cover" id="playerCover"></span>
-          <img src="./assets/arrow-up.svg" width="24" height="24" alt="" class="menu-badge" />
-        </button>
-
-        <button class="player-icon-button" id="musicToggle" type="button" aria-label="Play or pause">
-          <img class="play-icon" id="playIcon" src="./assets/play.svg" width="24" height="24" alt="" />
-        </button>
-
-        <div class="floating-player-copy">
-          <div class="marquee-mask">
-            <div class="marquee-track" id="marqueeTrack">
-              <span class="marquee-text" id="trackTitle">Drafting Room - Victor Morgan</span>
-            </div>
-          </div>
-          <input
-            class="timeline-range"
-            id="timelineRange"
-            type="range"
-            min="0"
-            max="100"
-            value="0"
-            aria-label="Music timeline"
-          />
-          <span class="sr-only" id="musicStatus">Music player ready.</span>
-        </div>
-      </section>
-    </div>
-
     <dialog class="article-modal" id="articleModal">
       <article class="article-modal-card">
         <header class="article-modal-head">
@@ -127,11 +88,9 @@
       </article>
     </dialog>
 
-    <script src="./js/portfolio-player.js"></script>
     <script src="./js/insights.js"></script>
     <script src="./js/smooth-page-scroll.js"></script>
     <script src="./js/scroll-reveal.js"></script>
     <script src="./js/active-nav.js"></script>
-    <script src="./js/interactive-icon-particles.js"></script>
   </body>
 </html>

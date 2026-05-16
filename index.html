@@ -449,45 +449,6 @@
       </main>
     </div>
 
-    <div class="floating-player-wrap">
-      <section class="track-popup" id="trackPopup" aria-label="Music list" hidden></section>
-      <section class="floating-player" aria-label="Portfolio music player">
-        <button
-          class="player-cover-button"
-          id="trackMenuToggle"
-          type="button"
-          aria-controls="trackPopup"
-          aria-expanded="false"
-          aria-label="Show music list"
-        >
-          <span class="player-cover" id="playerCover"></span>
-          <img src="./assets/arrow-up.svg" alt="" class="menu-badge"/>
-        </button>
-
-        <button class="player-icon-button" id="musicToggle" type="button" aria-label="Play or pause">
-          <img class="play-icon" id="playIcon" src="./assets/play.svg" alt="" />
-        </button>
-
-        <div class="floating-player-copy">
-          <div class="marquee-mask">
-            <div class="marquee-track" id="marqueeTrack">
-              <span class="marquee-text" id="trackTitle">Drafting Room - Victor Morgan</span>
-            </div>
-          </div>
-          <input
-            class="timeline-range"
-            id="timelineRange"
-            type="range"
-            min="0"
-            max="100"
-            value="0"
-            aria-label="Music timeline"
-          />
-          <span class="sr-only" id="musicStatus">Music player ready.</span>
-        </div>
-      </section>
-    </div>
-
     <dialog class="project-modal" id="projectModal">
       <form method="dialog" class="modal-card">
         <div class="modal-head">
@@ -662,6 +623,5 @@
     <script src="./js/smooth-page-scroll.js"></script>
     <script src="./js/scroll-reveal.js"></script>
     <script src="./js/active-nav.js"></script>
-    <script src="./js/interactive-icon-particles.js"></script>
   </body>
 </html>

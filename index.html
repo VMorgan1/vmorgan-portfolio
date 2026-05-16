@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -12,22 +12,20 @@
     <meta property="og:image:width" content="1200"/>
     <meta property="og:image:height" content="630"/>
     <link rel="icon" type="image/svg+xml" href="./assets/Logo  favicon.svg" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="./assets/fonts/manrope-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <link rel="stylesheet" href="./styles.css" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H7GJYF94VT"></script>
-    <script defer src="./js/analytics.js"></script>
   </head>
   <body>
     <div class="page-shell">
       <header class="topbar">
         <a class="brand" href="#hero" aria-label="VMorgan.design home">
-          <img class="brand-logo" src="./assets/Logo.svg" width="74" height="46" alt="" />
+          <img class="brand-logo" src="./assets/Logo.svg" alt="" />
           <span class="brand-copy">
             <strong>VMorgan Design</strong>
           </span>
@@ -44,7 +42,7 @@
         </div>
         <details class="nav-menu">
           <summary class="nav-menu-toggle" aria-label="Open navigation menu">
-            <img src="./assets/menu.svg" width="24" height="24" alt="" />
+            <img src="./assets/menu.svg" alt="" />
           </summary>
           <div class="nav-menu-panel">
             <nav class="main-nav" aria-label="Mobile primary">
@@ -91,10 +89,6 @@
               <img
                 class="portrait-image"
                 src="./assets/VMorgan image.avif"
-                width="720"
-                height="900"
-                fetchpriority="high"
-                decoding="async"
                 alt="Portrait of Victor Morgan"
               />
             </div>
@@ -214,7 +208,7 @@
         <section class="panel" id="clients">
           <div class="section-head">
             <p class="eyebrow">Clients and feedback</p>
-            <h2>Teams I've worked with and what they said</h2>
+            <h2>Teams I&apos;ve worked with and what they said</h2>
           </div>
           <div class="client-band" aria-label="Client logos">
             <span class="client-logo-card">
@@ -242,8 +236,8 @@
           <div class="feedback-grid">
             <article class="quote-card">
               <p>
-                â€œVictor brought order to a messy product flow and made the whole
-                team think more clearly.â€
+                “Victor brought order to a messy product flow and made the whole
+                team think more clearly.”
               </p>
               <p class="quote-copy">
                 "Victor helped us turn a rough product idea into a clear, confident experience. He understood the product direction quickly and brought structure to the screens without slowing the team down."
@@ -252,8 +246,8 @@
             </article>
             <article class="quote-card">
               <p>
-                â€œHis eye for detail is strong, but what stood out most was how
-                calmly he solved product problems.â€
+                “His eye for detail is strong, but what stood out most was how
+                calmly he solved product problems.”
               </p>
               <p class="quote-copy">
                 "The Swift Wings flow needed to feel simple despite the complexity behind flight booking. Victor made the experience easier to follow and gave the interface a cleaner sense of trust."
@@ -262,8 +256,8 @@
             </article>
             <article class="quote-card">
               <p>
-                â€œThe final experience felt premium without becoming complicated.
-                That balance mattered for our users.â€
+                “The final experience felt premium without becoming complicated.
+                That balance mattered for our users.”
               </p>
               <p class="quote-copy">
                 "For Second Wallet, Victor brought a strong balance of product thinking and visual detail. The final design made the loan management experience feel more organized, modern, and easier to understand."
@@ -467,11 +461,11 @@
           aria-label="Show music list"
         >
           <span class="player-cover" id="playerCover"></span>
-          <img src="./assets/arrow-up.svg" width="24" height="24" alt="" class="menu-badge"/>
+          <img src="./assets/arrow-up.svg" alt="" class="menu-badge"/>
         </button>
 
         <button class="player-icon-button" id="musicToggle" type="button" aria-label="Play or pause">
-          <img class="play-icon" id="playIcon" src="./assets/play.svg" width="24" height="24" alt="" />
+          <img class="play-icon" id="playIcon" src="./assets/play.svg" alt="" />
         </button>
 
         <div class="floating-player-copy">
@@ -502,7 +496,7 @@
             <h2 id="modalTitle"></h2>
           </div>
           <button class="icon-button" type="submit" aria-label="Close details">
-            &times;
+            ×
           </button>
         </div>
         <p id="modalSummary"></p>
@@ -519,7 +513,7 @@
             <h2 id="articleTitle"></h2>
           </div>
           <button class="icon-button" id="articleClose" type="button" aria-label="Close article">
-            &times;
+            ×
           </button>
         </header>
 
@@ -542,7 +536,7 @@
             <p id="designPreviewDescription"></p>
           </div>
           <button class="icon-button" id="designPreviewClose" type="button" aria-label="Close design preview">
-            &times;
+            ×
           </button>
         </header>
         <div class="design-preview-visual" id="designPreviewVisual"></div>
@@ -571,141 +565,92 @@
           <label>Do not fill this out if you are human: <input name="bot-field" /></label>
         </p>
 
-        <div class="service-form-content" id="bookCallContent">
-          <div class="modal-head">
-            <div>
-              <p class="eyebrow" id="book-call-label">Book a call</p>
-              <h2 id="bookCallTitle">Book a call</h2>
-            </div>
-            <button class="icon-button" id="bookCallClose" type="button" aria-label="Close book call form">
-              &times;
-            </button>
+        <div class="modal-head">
+          <div>
+            <p class="eyebrow" id="book-call-label">Book a call</p>
+            <h2 id="bookCallTitle">Book a call</h2>
           </div>
-
-          <div class="service-order-fields">
-            <label class="field">
-              <span>Name</span>
-              <input
-                class="text-input"
-                id="bookCallName"
-                name="name"
-                type="text"
-                placeholder="Your name"
-                required
-              />
-            </label>
-            <label class="field">
-              <span>Email address</span>
-              <input
-                class="text-input"
-                id="bookCallEmail"
-                name="email"
-                type="email"
-                placeholder="you@example.com"
-                required
-              />
-            </label>
-          </div>
-
-          <p class="service-order-note">
-            Enter your name and email first, then the booking page will open so you can schedule the call.
-          </p>
-
-          <div class="service-order-actions">
-            <button class="button" type="submit">Submit and book call</button>
-          </div>
+          <button class="icon-button" id="bookCallClose" type="button" aria-label="Close book call form">
+            Ã—
+          </button>
         </div>
 
-        <div class="service-submit-success" id="bookCallSuccess" hidden>
-          <span class="success-pill">Submitted</span>
-          <h2>Check the Cal.com tab to finish booking.</h2>
-          <p>
-            Your details have been submitted. Make sure you set up the call in the page that opened.
-            Looking forward to what we will build.
-          </p>
-          <button class="button button-secondary" type="button" data-close-success="book-call">Back to site</button>
+        <div class="service-order-fields">
+          <label class="field">
+            <span>Email address</span>
+            <input
+              class="text-input"
+              id="bookCallEmail"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              required
+            />
+          </label>
+        </div>
+
+        <p class="service-order-note">
+          Enter your email first, then you will be redirected to book a Google Meet call.
+        </p>
+
+        <div class="service-order-actions">
+          <button class="button" type="submit">Submit and book call</button>
         </div>
       </form>
     </dialog>
 
     <dialog class="service-order-modal" id="serviceOrderModal">
-      <form
-        class="modal-card service-order-card"
-        id="serviceOrderForm"
-        name="service-order"
-        method="POST"
-        data-netlify="true"
-        netlify-honeypot="bot-field"
-      >
-        <input type="hidden" name="form-name" value="service-order" />
-        <input type="hidden" id="serviceOrderServiceName" name="service_name" value="" />
-        <input type="hidden" id="serviceOrderSubmittedAt" name="submitted_at" value="" />
-        <p class="hidden-field">
-          <label>Do not fill this out if you are human: <input name="bot-field" /></label>
-        </p>
-
-        <div class="service-form-content" id="serviceOrderContent">
-          <div class="modal-head">
-            <div>
-              <p class="eyebrow" id="order-service">Order service</p>
-              <h2 id="serviceOrderTitle">Order service</h2>
-            </div>
-            <button class="icon-button" id="serviceOrderClose" type="button" aria-label="Close order form">
-              &times;
-            </button>
+      <form class="modal-card service-order-card" id="serviceOrderForm">
+        <div class="modal-head">
+          <div>
+            <p class="eyebrow" id="order-service">Order service</p>
+            <h2 id="serviceOrderTitle">Order service</h2>
           </div>
-
-          <div class="service-order-fields">
-            <label class="field">
-              <span>Name</span>
-              <input class="text-input" id="orderName" name="name" type="text" required />
-            </label>
-            <label class="field">
-              <span>Email address</span>
-              <input class="text-input" id="orderEmail" name="email" type="email" required />
-            </label>
-            <label class="field">
-              <span>Short project brief</span>
-              <textarea
-                class="text-area"
-                id="orderBrief"
-                name="brief"
-                rows="5"
-                placeholder="Tell me what you want designed, the audience, and the goal."
-                required
-              ></textarea>
-            </label>
-            <label class="field">
-              <span>Timeline for delivery</span>
-              <select id="orderTimeline" name="timeline" required>
-                <option value="">Select timeline</option>
-                <option value="3-5 days">3-5 days</option>
-                <option value="1-2 weeks">1-2 weeks</option>
-                <option value="2-4 weeks">2-4 weeks</option>
-                <option value="3 months">3 months</option>
-                <option value="1 year">1 year</option>
-                <option value="Flexible">Flexible</option>
-              </select>
-            </label>
-          </div>
-
-          <p class="service-order-note">
-            Once you submit, the booking page will open so you can schedule a Google Meet call.
-          </p>
-
-          <div class="service-order-actions">
-            <button class="button" type="submit">Submit and book a call</button>
-          </div>
+          <button class="icon-button" id="serviceOrderClose" type="button" aria-label="Close order form">
+            ×
+          </button>
         </div>
 
-        <div class="service-submit-success" id="serviceOrderSuccess" hidden>
-          <span class="success-pill">Order submitted</span>
-          <h2>Your service request is in.</h2>
-          <p>
-            I have received your details. Make sure you set up the call in the Cal.com page that opened
-            so we can talk through the next steps. Looking forward to what we will build.
-          </p>
-          <button class="button button-secondary" type="button" data-close-success="service-order">Back to site</button>
+        <div class="service-order-fields">
+          <label class="field">
+            <span>Name</span>
+            <input class="text-input" id="orderName" name="name" type="text" required />
+          </label>
+          <label class="field">
+            <span>Email address</span>
+            <input class="text-input" id="orderEmail" name="email" type="email" required />
+          </label>
+          <label class="field">
+            <span>Short project brief</span>
+            <textarea
+              class="text-area"
+              id="orderBrief"
+              name="brief"
+              rows="5"
+              placeholder="Tell me what you want designed, the audience, and the goal."
+              required
+            ></textarea>
+          </label>
+          <label class="field">
+            <span>Timeline for delivery</span>
+            <select id="orderTimeline" name="timeline" required>
+              <option value="">Select timeline</option>
+              <option value="3-5 days">3-5 days</option>
+              <option value="1-2 weeks">1-2 weeks</option>
+              <option value="2-4 weeks">2-4 weeks</option>
+              <option value="3 months">3 months</option>
+              <option value="1 year">1 year</option>
+              <option value="Flexible">Flexible</option>
+            </select>
+          </label>
+        </div>
+
+        <p class="service-order-note">
+          Once you submit, you will be automatically redirected to book a Google Meet call.
+        </p>
+
+        <div class="service-order-actions">
+          <button class="button" type="submit">Submit and book a call</button>
         </div>
       </form>
     </dialog>

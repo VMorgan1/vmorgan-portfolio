@@ -1,4 +1,16 @@
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("./assets/fonts/manrope-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
+  --font-sans: "Manrope", "Segoe UI", sans-serif;
   --bg: #edf2ef;
   --panel: #fbfcf8;
   --panel-muted: #e3ebe7;
@@ -59,7 +71,7 @@ html.is-anchor-scrolling {
 
 body {
   margin: 0;
-  font-family: "Manrope", sans-serif;
+  font-family: var(--font-sans);
   background:
     radial-gradient(circle at 84% 0%, rgba(111, 143, 163, 0.18), transparent 30%),
     linear-gradient(180deg, #fbfcf8 0%, var(--bg) 100%);
@@ -1919,7 +1931,7 @@ select:focus-visible {
   gap: 14px;
   align-content: start;
   min-height: 320px;
-  padding: 22px;
+  padding: 16px;
   border: 1px solid var(--line);
   border-radius: var(--radius-xl);
   background: rgba(251, 252, 248, 0.78);
@@ -1942,7 +1954,7 @@ select:focus-visible {
   width: 100%;
   overflow: hidden;
   border: 1px solid rgba(47, 111, 115, 0.18);
-  border-radius: 22px;
+  border-radius: 16px;
   background: var(--panel-muted);
 }
 
@@ -2555,11 +2567,7 @@ select:focus-visible {
     height: 700px;
     align-items: end;
   }
-
-  .portrait-image{
-    top: px;
-  }
-
+  
   .hero-rail{
     height: auto;
   }
@@ -2777,6 +2785,9 @@ select:focus-visible {
     justify-content: space-between;
     gap: 12px;
   }
+  .eyebrow{
+    margin-left: 0;
+  }
 }
 
 @media (max-width: 680px) {
@@ -2819,4 +2830,73 @@ select:focus-visible {
   #articleTitle {
     line-height: 3 rem;
   }
+  .hero-rail {
+    width: 100%;
+  }
 }
+@media (max-width: 440px) {
+  .page-shell {
+    width: calc(100% - 16px);
+    margin-top: 8px;
+  }
+
+  .hero.panel {
+    width: 100%;
+    gap: 18px;
+    padding-inline: 14px;
+  }
+
+  .hero-copy,
+  .hero-rail {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hero-copy {
+    padding-inline: 0;
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 18vw, 4.6rem);
+  }
+
+  .hero-story {
+    font-size: 0.96rem;
+    line-height: 1.72;
+  }
+
+  .hero-meta {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+  }
+
+  .hero-meta article {
+    min-width: 0;
+    padding: 0;
+  }
+
+  .hero-meta strong {
+    font-size: clamp(3rem, 16vw, 4rem);
+  }
+
+  .meta-label {
+    max-width: 10ch;
+    font-size: 0.9rem;
+  }
+
+  .portrait-frame {
+    width: 100%;
+    height: clamp(520px, 132vw, 620px);
+    min-height: 0;
+    border-radius: 24px;
+  }
+
+  .portrait-image {
+    scale: 1;
+    bottom: 0;
+    object-position: center top;
+  }
+}
+
+

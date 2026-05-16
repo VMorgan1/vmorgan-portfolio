@@ -45,11 +45,13 @@
     "icon 40.svg",
   ].map((name) => `./assets/Icon%20hover/${name.replace(/ /g, "%20")}`);
 
-  const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
-  const maxParticles = isCoarsePointer ? 18 : 30;
-  const minMoveDistance = isCoarsePointer ? 28 : 22;
-  const minMoveDelay = isCoarsePointer ? 115 : 70;
-  const maxMoveDelay = isCoarsePointer ? 155 : 115;
+  const hasFinePointer = window.matchMedia("(any-pointer: fine)").matches;
+  const hasCoarsePointer = window.matchMedia("(any-pointer: coarse)").matches;
+  const mobileOnlyPointer = hasCoarsePointer && !hasFinePointer;
+  const maxParticles = mobileOnlyPointer ? 10 : 30;
+  const minMoveDistance = 26;
+  const minMoveDelay = 80;
+  const maxMoveDelay = 140;
 
   const layer = document.createElement("div");
   layer.className = "icon-particle-layer";
@@ -65,6 +67,7 @@
   let pendingMove = null;
   let rafId = 0;
   let lastBurstAt = 0;
+  let touchStartPoint = null;
 
   function randomBetween(min, max) {
     return min + Math.random() * (max - min);
@@ -140,7 +143,7 @@
   }
 
   function spawnTrailParticle(point, previousPoint, pointerType) {
-    const mobile = pointerType !== "mouse" || isCoarsePointer;
+    const mobile = pointerType !== "mouse";
     const dx = previousPoint ? point.x - previousPoint.x : 0;
     const drift = Math.max(-26, Math.min(26, dx * 0.28));
     const offset = mobile ? 16 : 24;
@@ -162,7 +165,7 @@
 
   function spawnBurst(point) {
     const count = Math.floor(randomBetween(6, 11));
-    const mobile = isCoarsePointer;
+    const mobile = mobileOnlyPointer;
 
     for (let index = 0; index < count; index += 1) {
       const angle = randomBetween(0, Math.PI * 2);
@@ -213,25 +216,33 @@
     pendingMove = null;
   }
 
-  function handlePointerMove(event) {
-    if (event.pointerType === "mouse" && isCoarsePointer) return;
-    queueMove({ x: event.clientX, y: event.clientY }, event.pointerType || "mouse");
-  }
-
   function handleMouseMove(event) {
-    if (isCoarsePointer) return;
     queueMove({ x: event.clientX, y: event.clientY }, "mouse");
   }
 
-  function handleTouchMove(event) {
-    const touch = event.touches && event.touches[0];
-    if (!touch) return;
-    queueMove({ x: touch.clientX, y: touch.clientY }, "touch");
-  }
-
   function handlePointerDown(event) {
+    if (event.pointerType !== "pen") return;
     lastBurstAt = performance.now();
     spawnBurst({ x: event.clientX, y: event.clientY });
+  }
+
+  function handleTouchStart(event) {
+    const touch = event.touches && event.touches[0];
+    if (!touch) return;
+    touchStartPoint = { x: touch.clientX, y: touch.clientY };
+  }
+
+  function handleTouchEnd(event) {
+    const touch = event.changedTouches && event.changedTouches[0];
+    if (!touch || !touchStartPoint) return;
+    if (distance({ x: touch.clientX, y: touch.clientY }, touchStartPoint) > 12) {
+      touchStartPoint = null;
+      return;
+    }
+
+    lastBurstAt = performance.now();
+    spawnBurst({ x: touch.clientX, y: touch.clientY });
+    touchStartPoint = null;
   }
 
   function handleClick(event) {
@@ -239,15 +250,15 @@
     spawnBurst({ x: event.clientX, y: event.clientY });
   }
 
-  window.addEventListener("pointermove", handlePointerMove, { passive: true });
   window.addEventListener("mousemove", handleMouseMove, { passive: true });
-  window.addEventListener("touchmove", handleTouchMove, { passive: true });
+  window.addEventListener("touchstart", handleTouchStart, { passive: true });
+  window.addEventListener("touchend", handleTouchEnd, { passive: true });
   window.addEventListener("pointerdown", handlePointerDown, { passive: true });
   window.addEventListener("click", handleClick, { passive: true });
   window.addEventListener("beforeunload", () => {
-    window.removeEventListener("pointermove", handlePointerMove);
     window.removeEventListener("mousemove", handleMouseMove);
-    window.removeEventListener("touchmove", handleTouchMove);
+    window.removeEventListener("touchstart", handleTouchStart);
+    window.removeEventListener("touchend", handleTouchEnd);
     window.removeEventListener("pointerdown", handlePointerDown);
     window.removeEventListener("click", handleClick);
     if (rafId) window.cancelAnimationFrame(rafId);

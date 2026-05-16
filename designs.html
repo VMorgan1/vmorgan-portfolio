@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Designs | VMorgan.design</title>
+    <meta
+      name="description"
+      content="Design catalogue for Victor Morgan featuring case studies and design explorations."
+    />
+    <link rel="icon" type="image/svg+xml" href="./assets/Logo  favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="designs-page">
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="./index.html" aria-label="VMorgan.design home">
+          <img class="brand-logo" src="./assets/Logo.svg" alt="" />
+          <span class="brand-copy">
+            <strong>VMorgan Design</strong>
+          </span>
+        </a>
+        <nav class="main-nav desktop-nav" aria-label="Primary">
+          <a href="./designs.html">Designs</a>
+          <a href="./insights.html">Insights</a>
+          <a href="./index.html#services">Services</a>
+          <a href="./index.html#contact">Contact</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="button button-secondary" href="./index.html#contact">Contact Me</a>
+          <a class="button" href="./index.html#services">My Services</a>
+        </div>
+        <details class="nav-menu">
+          <summary class="nav-menu-toggle" aria-label="Open navigation menu">
+            <img src="./assets/menu.svg" alt="" />
+          </summary>
+          <div class="nav-menu-panel">
+            <nav class="main-nav" aria-label="Mobile primary">
+              <a href="./designs.html">Designs</a>
+              <a href="./insights.html">Insights</a>
+              <a href="./index.html#services">Services</a>
+              <a href="./index.html#contact">Contact</a>
+            </nav>
+          </div>
+        </details>
+      </header>
+
+      <main>
+        <section class="panel designs-shell">
+          <div class="section-head designs-head">
+            <p class="eyebrow">Designs</p>
+            <h2 class="designs-title">Case studies and design explorations from my product design practice.</h2>
+          </div>
+
+          <section class="designs-section" id="case-studies">
+            <div class="section-head designs-subhead">
+              <div>
+                <p class="eyebrow">Case studies</p>
+                <h3>Selected product stories and decision making</h3>
+              </div>
+            </div>
+            <div class="case-studies-grid" id="caseStudiesGrid"></div>
+          </section>
+
+          <section class="designs-section" id="design-explorations">
+            <div class="section-head designs-subhead">
+              <div>
+                <p class="eyebrow">Design explorations</p>
+                <h3>Interface directions, visual studies, and screen explorations</h3>
+              </div>
+            </div>
+            <div class="exploration-grid" id="explorationGrid"></div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <div class="floating-player-wrap">
+      <section class="track-popup" id="trackPopup" aria-label="Music list" hidden></section>
+      <section class="floating-player" aria-label="Portfolio music player">
+        <button
+          class="player-cover-button"
+          id="trackMenuToggle"
+          type="button"
+          aria-controls="trackPopup"
+          aria-expanded="false"
+          aria-label="Show music list"
+        >
+          <span class="player-cover" id="playerCover"></span>
+          <img src="./assets/arrow-up.svg" alt="" class="menu-badge" />
+        </button>
+
+        <button class="player-icon-button" id="musicToggle" type="button" aria-label="Play or pause">
+          <img class="play-icon" id="playIcon" src="./assets/play.svg" alt="" />
+        </button>
+
+        <div class="floating-player-copy">
+          <div class="marquee-mask">
+            <div class="marquee-track" id="marqueeTrack">
+              <span class="marquee-text" id="trackTitle">Drafting Room - Victor Morgan</span>
+            </div>
+          </div>
+          <input
+            class="timeline-range"
+            id="timelineRange"
+            type="range"
+            min="0"
+            max="100"
+            value="0"
+            aria-label="Music timeline"
+          />
+          <span class="sr-only" id="musicStatus">Music player ready.</span>
+        </div>
+      </section>
+    </div>
+
+    <dialog class="article-modal" id="caseStudyModal">
+      <article class="article-modal-card">
+        <header class="article-modal-head">
+          <div>
+            <p class="eyebrow">Case study</p>
+            <h2 id="caseStudyTitle"></h2>
+          </div>
+          <button class="icon-button" id="caseStudyClose" type="button" aria-label="Close case study">
+            ×
+          </button>
+        </header>
+
+        <div class="article-modal-scroll">
+          <div class="date-cat-share">
+            <div class="article-meta">
+              <span id="caseStudyDate"></span>
+              <span id="caseStudyCategory"></span>
+            </div>
+            <button class="button button-secondary share-icon-button" id="caseStudyShareButton" type="button" aria-label="Share case study" title="Share case study">
+              <img class="button-icon" src="./assets/uil_share.svg" alt="" />
+            </button>
+          </div>
+          
+          
+          <p class="article-preface" id="caseStudyPreface"></p>
+          <div class="article-body" id="caseStudyBody"></div>
+        </div>
+      </article>
+    </dialog>
+
+    <dialog class="design-preview-modal" id="designPreviewModal">
+      <article class="design-preview-card">
+        <header class="design-preview-head">
+          <div>
+            <h2 id="designPreviewTitle"></h2>
+            <p id="designPreviewDescription"></p>
+          </div>
+          <button class="icon-button" id="designPreviewClose" type="button" aria-label="Close design preview">
+            ×
+          </button>
+        </header>
+        <div class="design-preview-visual" id="designPreviewVisual"></div>
+        <div class="design-preview-share" id="designPreviewShare">
+          <p>Share your thoughts ....</p>
+          <div class="design-preview-actions">
+            <button class="button button-secondary" id="designPreviewShareButton" type="button">
+              <img class="button-icon" src="./assets/uil_share.svg" alt="" />
+              <span>Share</span>
+            </button>
+            <a class="button button-secondary" id="designPreviewX" href="" target="_blank" rel="noreferrer" hidden>View in X</a>
+          </div>
+        </div>
+      </article>
+    </dialog>
+
+    <script src="./js/explorations-data.js"></script>
+    <script src="./js/case-studies-data.js"></script>
+    <script src="./js/portfolio-player.js"></script>
+    <script src="./js/designs.js"></script>
+    <script src="./js/smooth-page-scroll.js"></script>
+    <script src="./js/scroll-reveal.js"></script>
+    <script src="./js/active-nav.js"></script>
+    <script src="./js/interactive-icon-particles.js"></script>
+  </body>
+</html>

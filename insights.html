@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Insights | VMorgan.design</title>
+    <meta
+      name="description"
+      content="Insights catalogue for Victor Morgan's writings, research notes, and design thinking."
+    />
+    <link rel="icon" type="image/svg+xml" href="./assets/Logo  favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="insights-page">
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="./index.html" aria-label="VMorgan.design home">
+          <img class="brand-logo" src="./assets/Logo.svg" alt="" />
+          <span class="brand-copy">
+            <strong>VMorgan Design</strong>
+          </span>
+        </a>
+        <nav class="main-nav desktop-nav" aria-label="Primary">
+          <a href="./designs.html">Designs</a>
+          <a href="./insights.html">Insights</a>
+          <a href="./index.html#services">Services</a>
+          <a href="./index.html#contact">Contact</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="button button-secondary" href="./index.html#contact">Contact Me</a>
+          <a class="button" href="./index.html#services">My Services</a>
+        </div>
+        <details class="nav-menu">
+          <summary class="nav-menu-toggle" aria-label="Open navigation menu">
+            <img src="./assets/menu.svg" alt="" />
+          </summary>
+          <div class="nav-menu-panel">
+            <nav class="main-nav" aria-label="Mobile primary">
+              <a href="./designs.html">Designs</a>
+              <a href="./insights.html">Insights</a>
+              <a href="./index.html#services">Services</a>
+              <a href="./index.html#contact">Contact</a>
+            </nav>
+          </div>
+        </details>
+      </header>
+
+      <main>
+        <section class="panel insights-hero">
+          <div class="section-head">
+            <p class="eyebrow">Insights</p>
+            <h2 class="insights-title">A catalogue of my writings, notes, and product thinking.</h2>
+          </div>
+          <div class="insights-grid" id="insightsGrid"></div>
+        </section>
+      </main>
+    </div>
+
+    <div class="floating-player-wrap">
+      <section class="track-popup" id="trackPopup" aria-label="Music list" hidden></section>
+      <section class="floating-player" aria-label="Portfolio music player">
+        <button
+          class="player-cover-button"
+          id="trackMenuToggle"
+          type="button"
+          aria-controls="trackPopup"
+          aria-expanded="false"
+          aria-label="Show music list"
+        >
+          <span class="player-cover" id="playerCover"></span>
+          <img src="./assets/arrow-up.svg" alt="" class="menu-badge" />
+        </button>
+
+        <button class="player-icon-button" id="musicToggle" type="button" aria-label="Play or pause">
+          <img class="play-icon" id="playIcon" src="./assets/play.svg" alt="" />
+        </button>
+
+        <div class="floating-player-copy">
+          <div class="marquee-mask">
+            <div class="marquee-track" id="marqueeTrack">
+              <span class="marquee-text" id="trackTitle">Drafting Room - Victor Morgan</span>
+            </div>
+          </div>
+          <input
+            class="timeline-range"
+            id="timelineRange"
+            type="range"
+            min="0"
+            max="100"
+            value="0"
+            aria-label="Music timeline"
+          />
+          <span class="sr-only" id="musicStatus">Music player ready.</span>
+        </div>
+      </section>
+    </div>
+
+    <dialog class="article-modal" id="articleModal">
+      <article class="article-modal-card">
+        <header class="article-modal-head">
+          <div>
+            <p class="eyebrow">Insight</p>
+            <h2 id="articleTitle"></h2>
+          </div>
+          <button class="icon-button" id="articleClose" type="button" aria-label="Close article">
+            ×
+          </button>
+        </header>
+
+        <div class="article-modal-scroll">
+          <div class="article-meta">
+            <span id="articleDate"></span>
+            <span id="articleCategory"></span>
+          </div>
+          <p class="article-preface" id="articlePreface"></p>
+          <div class="article-body" id="articleBody"></div>
+        </div>
+      </article>
+    </dialog>
+
+    <script src="./js/portfolio-player.js"></script>
+    <script src="./js/insights.js"></script>
+    <script src="./js/smooth-page-scroll.js"></script>
+    <script src="./js/scroll-reveal.js"></script>
+    <script src="./js/active-nav.js"></script>
+    <script src="./js/interactive-icon-particles.js"></script>
+  </body>
+</html>

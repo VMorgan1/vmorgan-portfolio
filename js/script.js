@@ -12,7 +12,7 @@ const projects = Array.isArray(window.CASE_STUDIES)
 
 const PLAY_ICON_SRC = "./assets/play.svg";
 const PAUSE_ICON_SRC = "./assets/pause.svg";
-const UPLOADED_TRACK_SRC = "./assets/back_drop-dark-ambient-background-music-grey-skies-422761.mp3";
+const UPLOADED_TRACK_SRC = "";
 const PLAYER_COVER_SRC = "./assets/og image.png";
 const SPOTIFY_PLAYLIST_EMBED_URL =
   "https://open.spotify.com/embed/playlist/65nTqilromnNMhF74uMuRC?utm_source=generator";
@@ -379,7 +379,7 @@ function renderServices() {
       ? service.mediaType === "video"
         ? `<video class="service-media protected-service-video" aria-label="${
             service.mediaAlt || service.name
-          }" autoplay muted loop playsinline preload="metadata" controlsList="nodownload noplaybackrate noremoteplayback" disablepictureinpicture disableremoteplayback oncontextmenu="return false;">
+          }" muted loop playsinline preload="none" controlsList="nodownload noplaybackrate noremoteplayback" disablepictureinpicture disableremoteplayback>
             <source src="${service.mediaSrc}" type="video/mp4" />
           </video>`
         : `<img class="service-media" src="${service.mediaSrc}" alt="${service.mediaAlt || service.name}" loading="lazy" />`
@@ -397,7 +397,7 @@ function renderServices() {
         <strong>From $${service.rate}</strong>
         <div class="service-item-actions">
           <button class="button button-secondary" type="button" data-book-call-service="${index}">
-            <img class="button-icon" src="./assets/Meet icon.svg" alt="" />
+            <img class="button-icon" src="./assets/Meet icon.svg" width="18" height="18" alt="" />
             Book a call
           </button>
           <button class="button" type="button" data-order-service="${index}">Order Service</button>
@@ -421,11 +421,34 @@ function renderServices() {
     openServiceOrderModal(Number(trigger.getAttribute("data-order-service")));
   });
 
-  servicesList.querySelectorAll(".protected-service-video").forEach((video) => {
+  const serviceVideos = servicesList.querySelectorAll(".protected-service-video");
+
+  serviceVideos.forEach((video) => {
     video.addEventListener("contextmenu", (event) => {
       event.preventDefault();
     });
   });
+
+  if (!("IntersectionObserver" in window)) return;
+
+  const videoObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const video = entry.target;
+        if (!(video instanceof HTMLVideoElement)) return;
+
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+          return;
+        }
+
+        video.pause();
+      });
+    },
+    { rootMargin: "240px 0px", threshold: 0.2 },
+  );
+
+  serviceVideos.forEach((video) => videoObserver.observe(video));
 }
 
 function updateEstimate() {
@@ -629,7 +652,7 @@ function openDesignPreview(design) {
   designPreviewDescription.textContent = hasDescription ? design.description : "";
   designPreviewDescription.hidden = !hasDescription;
   designPreviewVisual.innerHTML = `
-    <img class="design-preview-image" src="${design.image}" alt="${design.title}" />
+    <img class="design-preview-image" src="${design.image}" alt="${design.title}" decoding="async" />
   `;
 
   const designPostUrl = design.postUrl || design.xUrl || "";

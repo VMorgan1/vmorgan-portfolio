@@ -1,6 +1,6 @@
 const PLAY_ICON_SRC = "./assets/play.svg";
 const PAUSE_ICON_SRC = "./assets/pause.svg";
-const UPLOADED_TRACK_SRC = "./assets/back_drop-dark-ambient-background-music-grey-skies-422761.mp3";
+const UPLOADED_TRACK_SRC = "";
 const PLAYER_COVER_SRC = "./assets/og image.png";
 const SPOTIFY_PLAYLIST_EMBED_URL =
   "https://open.spotify.com/embed/playlist/65nTqilromnNMhF74uMuRC?utm_source=generator";

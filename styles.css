@@ -29,7 +29,7 @@
   --radius-xl: 32px;
   --radius-lg: 24px;
   --radius-md: 16px;
-  --max-width: 1440px;
+  --max-width: 1280px;
   --anchor-offset: 132px;
 }
 
@@ -282,13 +282,13 @@ input {
 
 .panel {
   position: relative;
-  margin-bottom: 32px;
+  margin-bottom: 64px;
   padding: 24px;
   padding-top: 24px;
-  border: 1px solid var(--line);
+  /*border: 1px solid var(--line);
   border-radius: 52px;
   background: rgba(251, 252, 248, 0.86);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow);*/
   overflow: hidden;
 }
 

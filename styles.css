@@ -1474,6 +1474,11 @@ select:focus-visible {
   gap: 0;
 }
 
+.service-form-content[hidden],
+.service-submit-success[hidden] {
+  display: none;
+}
+
 .service-order-fields {
   display: grid;
   gap: 16px;
@@ -1539,6 +1544,47 @@ select:focus-visible {
 .service-order-actions .button:disabled {
   cursor: wait;
   opacity: 0.65;
+}
+
+.service-submit-success {
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+  padding: 8px 0 2px;
+}
+
+.success-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 14px;
+  border: 1px solid rgba(47, 111, 115, 0.24);
+  border-radius: 999px;
+  background: rgba(216, 232, 229, 0.72);
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.service-submit-success h2 {
+  max-width: 12ch;
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+}
+
+.service-submit-success p {
+  max-width: 58ch;
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+.service-submit-success .button {
+  margin-top: 8px;
 }
 
 .floating-player-wrap {

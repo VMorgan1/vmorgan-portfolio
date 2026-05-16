@@ -150,13 +150,20 @@ const bookCallModal = document.getElementById("bookCallModal");
 const bookCallForm = document.getElementById("bookCallForm");
 const bookCallTitle = document.getElementById("bookCallTitle");
 const bookCallClose = document.getElementById("bookCallClose");
+const bookCallName = document.getElementById("bookCallName");
 const bookCallEmail = document.getElementById("bookCallEmail");
 const bookCallServiceName = document.getElementById("bookCallServiceName");
 const bookCallSubmittedAt = document.getElementById("bookCallSubmittedAt");
+const bookCallContent = document.getElementById("bookCallContent");
+const bookCallSuccess = document.getElementById("bookCallSuccess");
 const serviceOrderModal = document.getElementById("serviceOrderModal");
 const serviceOrderForm = document.getElementById("serviceOrderForm");
 const serviceOrderTitle = document.getElementById("serviceOrderTitle");
 const serviceOrderClose = document.getElementById("serviceOrderClose");
+const serviceOrderContent = document.getElementById("serviceOrderContent");
+const serviceOrderSuccess = document.getElementById("serviceOrderSuccess");
+const serviceOrderServiceName = document.getElementById("serviceOrderServiceName");
+const serviceOrderSubmittedAt = document.getElementById("serviceOrderSubmittedAt");
 const orderName = document.getElementById("orderName");
 const orderEmail = document.getElementById("orderEmail");
 const orderBrief = document.getElementById("orderBrief");
@@ -441,6 +448,15 @@ function openServiceOrderModal(serviceIndex) {
   selectedServiceIndex = serviceIndex;
   const service = services[serviceIndex];
   serviceOrderTitle.textContent = service.name;
+  serviceOrderServiceName.value = service.name;
+  serviceOrderForm.classList.remove("is-submitted");
+  serviceOrderContent.hidden = false;
+  serviceOrderSuccess.hidden = true;
+  const submitButton = serviceOrderForm.querySelector('[type="submit"]');
+  if (submitButton instanceof HTMLButtonElement) {
+    submitButton.disabled = false;
+    submitButton.textContent = "Submit and book a call";
+  }
   orderTimeline.value = service.turnaround;
   serviceOrderModal.showModal();
 }
@@ -454,9 +470,18 @@ function openBookCallModal(serviceIndex) {
   const service = services[serviceIndex];
   bookCallTitle.textContent = `Book a call for ${service.name}`;
   bookCallServiceName.value = service.name;
+  bookCallForm.classList.remove("is-submitted");
+  bookCallContent.hidden = false;
+  bookCallSuccess.hidden = true;
+  const submitButton = bookCallForm.querySelector('[type="submit"]');
+  if (submitButton instanceof HTMLButtonElement) {
+    submitButton.disabled = false;
+    submitButton.textContent = "Submit and book call";
+  }
+  bookCallName.value = "";
   bookCallEmail.value = "";
   bookCallModal.showModal();
-  bookCallEmail.focus();
+  bookCallName.focus();
 }
 
 function closeBookCallModal() {
@@ -483,6 +508,25 @@ async function submitNetlifyForm(form) {
   if (!response.ok) {
     throw new Error(`Netlify form submission failed with status ${response.status}`);
   }
+}
+
+function createBookingWindow() {
+  return window.open("about:blank", "_blank");
+}
+
+function sendBookingWindowToCal(bookingWindow) {
+  if (bookingWindow) {
+    bookingWindow.location.href = CAL_BOOKING_URL;
+    bookingWindow.focus();
+    return;
+  }
+
+  window.location.href = CAL_BOOKING_URL;
+}
+
+function showFormSuccess(content, success) {
+  content.hidden = true;
+  success.hidden = false;
 }
 
 function showServiceOrderSuccess() {
@@ -823,8 +867,10 @@ bookCallForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const service = services[selectedBookCallServiceIndex];
   const submitButton = bookCallForm.querySelector('[type="submit"]');
+  const bookingWindow = createBookingWindow();
   const payload = {
     serviceName: service.name,
+    name: bookCallName.value.trim(),
     email: bookCallEmail.value.trim(),
     submittedAt: new Date().toISOString(),
   };
@@ -840,10 +886,12 @@ bookCallForm.addEventListener("submit", async (event) => {
   try {
     window.localStorage.setItem(BOOK_CALL_STORAGE_KEY, JSON.stringify(payload));
     await submitNetlifyForm(bookCallForm);
-    window.location.href = CAL_BOOKING_URL;
+    showFormSuccess(bookCallContent, bookCallSuccess);
+    sendBookingWindowToCal(bookingWindow);
   } catch (error) {
     console.error("Unable to save book call lead.", error);
-    alert("I could not save your email yet. Please try again before booking the call.");
+    alert("I could not save your details yet. Please try again before booking the call.");
+    bookingWindow?.close();
     if (submitButton instanceof HTMLButtonElement) {
       submitButton.disabled = false;
       submitButton.textContent = "Submit and book call";
@@ -851,9 +899,11 @@ bookCallForm.addEventListener("submit", async (event) => {
   }
 });
 
-serviceOrderForm.addEventListener("submit", (event) => {
+serviceOrderForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const service = services[selectedServiceIndex];
+  const submitButton = serviceOrderForm.querySelector('[type="submit"]');
+  const bookingWindow = createBookingWindow();
   const payload = {
     serviceName: service.name,
     name: orderName.value.trim(),
@@ -863,8 +913,42 @@ serviceOrderForm.addEventListener("submit", (event) => {
     submittedAt: new Date().toISOString(),
   };
 
-  window.localStorage.setItem(SERVICE_ORDER_STORAGE_KEY, JSON.stringify(payload));
-  window.location.href = CAL_BOOKING_URL;
+  serviceOrderServiceName.value = payload.serviceName;
+  serviceOrderSubmittedAt.value = payload.submittedAt;
+
+  if (submitButton instanceof HTMLButtonElement) {
+    submitButton.disabled = true;
+    submitButton.textContent = "Saving...";
+  }
+
+  try {
+    window.localStorage.setItem(SERVICE_ORDER_STORAGE_KEY, JSON.stringify(payload));
+    await submitNetlifyForm(serviceOrderForm);
+    showFormSuccess(serviceOrderContent, serviceOrderSuccess);
+    sendBookingWindowToCal(bookingWindow);
+  } catch (error) {
+    console.error("Unable to save service order.", error);
+    alert("I could not save your order yet. Please try again before booking the call.");
+    bookingWindow?.close();
+    if (submitButton instanceof HTMLButtonElement) {
+      submitButton.disabled = false;
+      submitButton.textContent = "Submit and book a call";
+    }
+  }
+});
+
+document.querySelectorAll("[data-close-success]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const target = button.getAttribute("data-close-success");
+    if (target === "book-call") {
+      closeBookCallModal();
+      return;
+    }
+
+    if (target === "service-order") {
+      closeServiceOrderModal();
+    }
+  });
 });
 
 trackMenuToggle.addEventListener("click", () => {

@@ -539,13 +539,19 @@ input {
   font-size: 0.78rem;
 }
 
-.philosophy-grid h3,
 .timeline-item h3,
 .project-card h3,
 .blog-card h3,
 .service-item h3 {
   margin: 0 0;
   font-size: 1rem;
+  font-weight: 700;
+  color: #313c41;
+}
+
+.philosophy-grid h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #313c41;
 }

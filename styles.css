@@ -289,7 +289,7 @@ input {
   border-radius: 52px;
   background: rgba(251, 252, 248, 0.86);
   box-shadow: var(--shadow);*/
-  overflow: hidden;
+  overflow: visible;
 }
 
 .panel::before {
@@ -1835,7 +1835,7 @@ select:focus-visible {
 
 .case-study-services-cta {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -1854,8 +1854,6 @@ select:focus-visible {
 .case-study-services-cta::before {
   content: "";
   position: absolute;
-  inset: 14px;
-  border: 1px solid rgba(47, 111, 115, 0.12);
   border-radius: 22px;
   pointer-events: none;
 }
@@ -2047,6 +2045,7 @@ select:focus-visible {
   border: none;
   border-radius: 32px;
   background: transparent;
+  overflow: visible;
 }
 
 .design-preview-modal::backdrop {
@@ -2062,6 +2061,60 @@ select:focus-visible {
   border-radius: 32px;
   background: var(--panel);
   box-shadow: var(--shadow);
+}
+
+.design-preview-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  width: 54px;
+  height: 54px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid rgba(47, 111, 115, 0.22);
+  border-radius: 999px;
+  background: rgba(251, 252, 248, 0.88);
+  color: var(--ink);
+  box-shadow: 0 18px 42px rgba(20, 40, 45, 0.2);
+  font-size: 2.4rem;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.design-preview-nav:hover,
+.design-preview-nav:focus-visible {
+  border-color: rgba(47, 111, 115, 0.5);
+  background: var(--panel);
+  box-shadow: 0 24px 60px rgba(20, 40, 45, 0.26);
+  transform: translateY(-50%) scale(1.04);
+}
+
+.design-preview-nav-prev {
+  left: -74px;
+}
+
+.design-preview-nav-next {
+  right: -74px;
+}
+
+.design-preview-nav[hidden] {
+  display: none;
+}
+
+@media (max-width: 1380px) {
+  .design-preview-nav-prev {
+    left: 18px;
+  }
+
+  .design-preview-nav-next {
+    right: 18px;
+  }
 }
 
 .design-preview-head {
@@ -2086,6 +2139,7 @@ select:focus-visible {
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 32px;
+  width: 100%;
 }
 
 .design-preview-head p {
@@ -2486,6 +2540,29 @@ select:focus-visible {
 
   .design-preview-card {
     padding: 20px;
+  }
+
+  .design-preview-nav {
+    position: fixed;
+    top: auto;
+    bottom: max(18px, env(safe-area-inset-bottom));
+    width: 48px;
+    height: 48px;
+    font-size: 2rem;
+    transform: none;
+  }
+
+  .design-preview-nav:hover,
+  .design-preview-nav:focus-visible {
+    transform: scale(1.04);
+  }
+
+  .design-preview-nav-prev {
+    left: calc(50% - 58px);
+  }
+
+  .design-preview-nav-next {
+    right: calc(50% - 58px);
   }
 
   .design-preview-head {

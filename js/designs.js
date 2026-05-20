@@ -30,9 +30,13 @@ const designPreviewVisual = document.getElementById("designPreviewVisual");
 const designPreviewShare = document.getElementById("designPreviewShare");
 const designPreviewShareButton = document.getElementById("designPreviewShareButton");
 const designPreviewX = document.getElementById("designPreviewX");
+const designPreviewPrev = document.getElementById("designPreviewPrev");
+const designPreviewNext = document.getElementById("designPreviewNext");
 
 let activeCaseStudy = null;
 let activeExploration = null;
+let activeExplorationIndex = -1;
+let designPreviewTouchStart = null;
 
 function buildCaseStudyUrl(slug) {
   const url = new URL(window.location.href);
@@ -178,8 +182,26 @@ function openCaseStudy(caseStudy) {
   caseStudyModal.showModal();
 }
 
+function updateExplorationNavLabels() {
+  if (!explorations.length) return;
+
+  const previousIndex = (activeExplorationIndex - 1 + explorations.length) % explorations.length;
+  const nextIndex = (activeExplorationIndex + 1) % explorations.length;
+
+  if (designPreviewPrev) {
+    designPreviewPrev.hidden = explorations.length < 2;
+    designPreviewPrev.setAttribute("aria-label", `Previous design: ${explorations[previousIndex].title}`);
+  }
+
+  if (designPreviewNext) {
+    designPreviewNext.hidden = explorations.length < 2;
+    designPreviewNext.setAttribute("aria-label", `Next design: ${explorations[nextIndex].title}`);
+  }
+}
+
 function openExploration(exploration) {
   activeExploration = exploration;
+  activeExplorationIndex = explorations.indexOf(exploration);
   activeCaseStudy = null;
   designPreviewTitle.textContent = exploration.title;
   const hasDescription = Boolean(exploration.description?.trim());
@@ -204,7 +226,18 @@ function openExploration(exploration) {
   }
 
   syncDesignsUrl();
-  designPreviewModal.showModal();
+  updateExplorationNavLabels();
+  if (!designPreviewModal.open) {
+    designPreviewModal.showModal();
+  }
+}
+
+function navigateExploration(direction) {
+  if (!explorations.length) return;
+
+  const currentIndex = activeExplorationIndex >= 0 ? activeExplorationIndex : 0;
+  const nextIndex = (currentIndex + direction + explorations.length) % explorations.length;
+  openExploration(explorations[nextIndex]);
 }
 
 function resizeExplorationCard(card) {
@@ -327,8 +360,59 @@ caseStudyModal.addEventListener("close", () => {
 
 designPreviewModal.addEventListener("close", () => {
   activeExploration = null;
+  activeExplorationIndex = -1;
   syncDesignsUrl();
 });
+
+designPreviewPrev?.addEventListener("click", () => {
+  navigateExploration(-1);
+});
+
+designPreviewNext?.addEventListener("click", () => {
+  navigateExploration(1);
+});
+
+designPreviewModal.addEventListener("keydown", (event) => {
+  if (!designPreviewModal.open) return;
+
+  if (event.key === "ArrowLeft") {
+    event.preventDefault();
+    navigateExploration(-1);
+  }
+
+  if (event.key === "ArrowRight") {
+    event.preventDefault();
+    navigateExploration(1);
+  }
+});
+
+designPreviewModal.addEventListener(
+  "touchstart",
+  (event) => {
+    const touch = event.changedTouches[0];
+    designPreviewTouchStart = {
+      x: touch.clientX,
+      y: touch.clientY,
+    };
+  },
+  { passive: true },
+);
+
+designPreviewModal.addEventListener(
+  "touchend",
+  (event) => {
+    if (!designPreviewTouchStart) return;
+
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - designPreviewTouchStart.x;
+    const deltaY = touch.clientY - designPreviewTouchStart.y;
+    designPreviewTouchStart = null;
+
+    if (Math.abs(deltaX) < 56 || Math.abs(deltaX) < Math.abs(deltaY) * 1.25) return;
+    navigateExploration(deltaX > 0 ? -1 : 1);
+  },
+  { passive: true },
+);
 
 if (caseStudyShareButton) {
   caseStudyShareButton.addEventListener("click", () => {

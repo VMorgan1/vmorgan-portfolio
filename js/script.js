@@ -142,6 +142,8 @@ const designPreviewDescription = document.getElementById("designPreviewDescripti
 const designPreviewVisual = document.getElementById("designPreviewVisual");
 const designPreviewShare = document.getElementById("designPreviewShare");
 const designPreviewX = document.getElementById("designPreviewX");
+const designPreviewPrev = document.getElementById("designPreviewPrev");
+const designPreviewNext = document.getElementById("designPreviewNext");
 const bookCallModal = document.getElementById("bookCallModal");
 const bookCallForm = document.getElementById("bookCallForm");
 const bookCallTitle = document.getElementById("bookCallTitle");
@@ -168,6 +170,8 @@ const orderTimeline = document.getElementById("orderTimeline");
 let selectedServiceIndex = 0;
 let selectedBookCallServiceIndex = 0;
 let activeAddonButton = null;
+let activeDesignPreviewIndex = -1;
+let designPreviewTouchStart = null;
 
 function renderProjects() {
   projects.forEach((project, index) => {
@@ -643,9 +647,27 @@ function renderMasonry() {
   resizeHomepageMasonry();
 }
 
+function updateDesignPreviewNavLabels() {
+  if (!moreDesigns.length) return;
+
+  const previousIndex = (activeDesignPreviewIndex - 1 + moreDesigns.length) % moreDesigns.length;
+  const nextIndex = (activeDesignPreviewIndex + 1) % moreDesigns.length;
+
+  if (designPreviewPrev) {
+    designPreviewPrev.hidden = moreDesigns.length < 2;
+    designPreviewPrev.setAttribute("aria-label", `Previous design: ${moreDesigns[previousIndex].title}`);
+  }
+
+  if (designPreviewNext) {
+    designPreviewNext.hidden = moreDesigns.length < 2;
+    designPreviewNext.setAttribute("aria-label", `Next design: ${moreDesigns[nextIndex].title}`);
+  }
+}
+
 function openDesignPreview(design) {
   if (!designPreviewModal) return;
 
+  activeDesignPreviewIndex = moreDesigns.indexOf(design);
   designPreviewTitle.textContent = design.title;
   const hasDescription = Boolean(design.description?.trim());
   designPreviewDescription.textContent = hasDescription ? design.description : "";
@@ -668,7 +690,18 @@ function openDesignPreview(design) {
     designPreviewShare.hidden = !hasPostUrl;
   }
 
-  designPreviewModal.showModal();
+  updateDesignPreviewNavLabels();
+  if (!designPreviewModal.open) {
+    designPreviewModal.showModal();
+  }
+}
+
+function navigateDesignPreview(direction) {
+  if (!moreDesigns.length) return;
+
+  const currentIndex = activeDesignPreviewIndex >= 0 ? activeDesignPreviewIndex : 0;
+  const nextIndex = (currentIndex + direction + moreDesigns.length) % moreDesigns.length;
+  openDesignPreview(moreDesigns[nextIndex]);
 }
 
 serviceOrderClose.addEventListener("click", closeServiceOrderModal);
@@ -853,6 +886,60 @@ if (designPreviewClose) {
     designPreviewModal.close();
   });
 }
+
+designPreviewModal?.addEventListener("close", () => {
+  activeDesignPreviewIndex = -1;
+});
+
+designPreviewPrev?.addEventListener("click", () => {
+  navigateDesignPreview(-1);
+});
+
+designPreviewNext?.addEventListener("click", () => {
+  navigateDesignPreview(1);
+});
+
+designPreviewModal?.addEventListener("keydown", (event) => {
+  if (!designPreviewModal.open) return;
+
+  if (event.key === "ArrowLeft") {
+    event.preventDefault();
+    navigateDesignPreview(-1);
+  }
+
+  if (event.key === "ArrowRight") {
+    event.preventDefault();
+    navigateDesignPreview(1);
+  }
+});
+
+designPreviewModal?.addEventListener(
+  "touchstart",
+  (event) => {
+    const touch = event.changedTouches[0];
+    designPreviewTouchStart = {
+      x: touch.clientX,
+      y: touch.clientY,
+    };
+  },
+  { passive: true },
+);
+
+designPreviewModal?.addEventListener(
+  "touchend",
+  (event) => {
+    if (!designPreviewTouchStart) return;
+
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - designPreviewTouchStart.x;
+    const deltaY = touch.clientY - designPreviewTouchStart.y;
+    designPreviewTouchStart = null;
+
+    if (Math.abs(deltaX) < 56 || Math.abs(deltaX) < Math.abs(deltaY) * 1.25) return;
+    navigateDesignPreview(deltaX > 0 ? -1 : 1);
+  },
+  { passive: true },
+);
 
 document.querySelectorAll(".nav-menu-panel a").forEach((link) => {
   link.addEventListener("click", () => {

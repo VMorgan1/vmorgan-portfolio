@@ -1,4 +1,83 @@
 (() => {
+  const VECTRA_BODY = [
+    {
+      type: "paragraph",
+      content:
+        "Designed a futuristic vehicle control app concept inspired by the clean, intelligent, and premium feel of next-gen mobility.",
+    },
+    {
+      type: "paragraph",
+      content:
+        "The idea behind this app is simple: give users full control of their vehicle from one beautifully designed interface. From checking battery range and vehicle status to navigating routes, adjusting climate, switching drive modes, and managing personal settings, the app is built to make advanced vehicle control feel effortless.",
+    },
+    {
+      type: "paragraph",
+      content:
+        "For the design process, I focused on creating a calm but high-tech experience. The visual direction uses soft whites, glass-like cards, minimal icons, orange energy accents, and realistic vehicle visuals to make the interface feel both luxurious and functional.",
+    },
+    {
+      type: "paragraph",
+      content:
+        "A major part of the exploration was designing around the vehicle itself: how it appears on the home screen, how users interact with drive modes, how navigation feels, and how the interior/climate experience can be represented visually without making the UI feel crowded.",
+    },
+    {
+      type: "paragraph",
+      content:
+        "This was an experiment in combining automotive design, product design, and futuristic interface thinking into one cohesive experience.",
+    },
+    {
+      type: "paragraph",
+      content: "Enjoy viewing the screens, and I'd love to hear your thoughts.",
+    },
+    {
+      type: "video",
+      src: "./assets/Explorations/Car app design/Car Video.mp4",
+      poster: "./assets/Explorations/Car app design/Cover iamge.avif",
+    },
+    {
+      type: "image",
+      src: "./assets/Explorations/Car app design/Image 1.avif",
+      alt: "Vectra vehicle control app screen exploration 1",
+    },
+    {
+      type: "image",
+      src: "./assets/Explorations/Car app design/Image 2.avif",
+      alt: "Vectra vehicle control app screen exploration 2",
+    },
+    {
+      type: "image",
+      src: "./assets/Explorations/Car app design/Image 3.avif",
+      alt: "Vectra vehicle control app screen exploration 3",
+    },
+    {
+      type: "image",
+      src: "./assets/Explorations/Car app design/Image 4.avif",
+      alt: "Vectra vehicle control app screen exploration 4",
+    },
+    {
+      type: "image",
+      src: "./assets/Explorations/Car app design/Image 5.avif",
+      alt: "Vectra vehicle control app screen exploration 5",
+    },
+  ];
+
+  const featuredExplorations = [
+    {
+      title: "Vectra - A Futuristic Vehicle Control App Concept",
+      slug: "vectra-futuristic-vehicle-control-app-concept",
+      description:
+        "Designed a futuristic vehicle control app concept inspired by the clean, intelligent, and premium feel of next-gen mobility.",
+      image: "./assets/Explorations/Car app design/Cover iamge.avif",
+      coverImage: "./assets/Explorations/Car app design/Cover iamge.avif",
+      coverAlt: "Cover screen for the Vectra futuristic vehicle control app concept",
+      body: VECTRA_BODY,
+      sortOrder: 1000,
+      dateAdded: "2026-05-29",
+      postUrl: "",
+      postLabel: "",
+    },
+  ];
+
   const files = [
     "Upload file to cloud.avif",
     "Hire me App.avif",
@@ -143,7 +222,7 @@
       .replace(/^-+|-+$/g, "");
   }
 
-  window.EXPLORATIONS = files.map((fileName, index) => {
+  const generatedExplorations = files.map((fileName, index) => {
     const normalizedTitle = normalizeTitle(fileName);
     const meta = explorationMeta[normalizedTitle] || {};
     const title = meta.title || normalizedTitle;
@@ -159,5 +238,7 @@
       postLabel: meta.postLabel || (meta.x ? "View in X" : ""),
     };
   });
+
+  window.EXPLORATIONS = [...featuredExplorations, ...generatedExplorations];
 })();
 

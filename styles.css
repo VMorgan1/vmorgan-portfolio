@@ -231,8 +231,7 @@ input {
   font-weight: 700;
 }
 
-.button,
-.icon-button {
+.button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -259,6 +258,26 @@ input {
   white-space: nowrap;
 }
 
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  line-height: 1;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
 .button-icon {
   width: 18px;
   height: 18px;
@@ -267,11 +286,18 @@ input {
 }
 
 .button:hover,
-.icon-button:hover,
-.button:focus-visible,
-.icon-button:focus-visible {
+.button:focus-visible {
   transform: translateY(-1px);
   box-shadow: 0 14px 34px rgba(47, 111, 115, 0.18);
+}
+
+.icon-button:hover,
+.icon-button:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(47, 111, 115, 0.2);
+  background: rgba(251, 252, 248, 0.72);
+  box-shadow: 0 14px 34px rgba(47, 111, 115, 0.18);
+  outline: none;
 }
 
 .button-secondary {
@@ -2041,11 +2067,19 @@ select:focus-visible {
 
 .design-preview-modal {
   width: min(1200px, calc(100% - 32px));
+  height: calc(100vh - 64px);
+  height: calc(100dvh - 64px);
+  max-height: calc(100vh - 64px);
+  max-height: calc(100dvh - 64px);
   padding: 0;
   border: none;
   border-radius: 32px;
   background: transparent;
   overflow: visible;
+}
+
+.design-preview-modal.has-story {
+  width: min(1080px, calc(100% - 32px));
 }
 
 .design-preview-modal::backdrop {
@@ -2055,12 +2089,20 @@ select:focus-visible {
 
 .design-preview-card {
   display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   gap: 20px;
+  height: 100%;
+  max-height: 100%;
   padding: 28px;
   border: 1px solid var(--line);
   border-radius: 32px;
   background: var(--panel);
   box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.design-preview-modal.has-story .design-preview-card {
+  grid-template-rows: auto minmax(0, 1fr) auto;
 }
 
 .design-preview-nav {
@@ -2130,7 +2172,7 @@ select:focus-visible {
 
 .design-preview-head h2 {
   margin: 0 0 10px;
-  font-size: clamp(2rem, 5vw, 3.6rem);
+  font-size: clamp(2rem, 5vw, 2rem);
   line-height: 1.2;
 }
 
@@ -2155,6 +2197,22 @@ select:focus-visible {
 
 .design-preview-visual {
   width: 100%;
+  overflow: auto;
+  min-height: 0;
+  padding-right: 4px;
+}
+
+.design-preview-story {
+  display: grid;
+  gap: 20px;
+  justify-items: center;
+}
+
+.design-preview-story > p {
+  width: min(100%, 680px);
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.9;
 }
 
 .design-preview-image {
@@ -2538,6 +2596,10 @@ select:focus-visible {
     width: calc(100% - 20px);
   }
 
+  .design-preview-modal.has-story {
+    height: calc(100vh - 32px);
+  }
+
   .design-preview-card {
     padding: 20px;
   }
@@ -2626,7 +2688,7 @@ select:focus-visible {
 
   .article-modal-head h2 {
   margin: 6px 0 0;
-  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  font-size: clamp(1.5rem, 5vw, 2rem);
   line-height: 1.2;
   }
 

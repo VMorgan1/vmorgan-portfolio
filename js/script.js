@@ -330,6 +330,28 @@ function renderBodyBlock(block) {
   return "";
 }
 
+function hasExplorationStory(design) {
+  return Array.isArray(design.body) && design.body.length > 0;
+}
+
+function renderExplorationStory(design) {
+  const coverImage = design.coverImage || design.image;
+  const coverAlt = design.coverAlt || design.title;
+
+  return `
+    <div class="design-preview-story">
+      ${
+        coverImage
+          ? `<figure class="article-media">
+              <img src="${coverImage}" width="1440" height="900" alt="${coverAlt}" loading="lazy" decoding="async" />
+            </figure>`
+          : ""
+      }
+      ${design.body.map(renderBodyBlock).join("")}
+    </div>
+  `;
+}
+
 function openArticle(article) {
   articleTitle.textContent = article.title;
   articleDate.textContent = article.date;
@@ -668,13 +690,17 @@ function openDesignPreview(design) {
   if (!designPreviewModal) return;
 
   activeDesignPreviewIndex = moreDesigns.indexOf(design);
+  const hasStory = hasExplorationStory(design);
   designPreviewTitle.textContent = design.title;
   const hasDescription = Boolean(design.description?.trim());
-  designPreviewDescription.textContent = hasDescription ? design.description : "";
-  designPreviewDescription.hidden = !hasDescription;
-  designPreviewVisual.innerHTML = `
-    <img class="design-preview-image" src="${design.image}" width="1600" height="1200" alt="${design.title}" loading="lazy" decoding="async" />
-  `;
+  designPreviewDescription.textContent = !hasStory && hasDescription ? design.description : "";
+  designPreviewDescription.hidden = hasStory || !hasDescription;
+  designPreviewModal.classList.toggle("has-story", hasStory);
+  designPreviewVisual.innerHTML = hasStory
+    ? renderExplorationStory(design)
+    : `
+      <img class="design-preview-image" src="${design.image}" width="1600" height="1200" alt="${design.title}" loading="lazy" decoding="async" />
+    `;
 
   const designPostUrl = design.postUrl || design.xUrl || "";
   const designPostLabel = design.postLabel || "View in X";

@@ -154,6 +154,28 @@ function renderBodyBlock(block) {
   return "";
 }
 
+function hasExplorationStory(exploration) {
+  return Array.isArray(exploration.body) && exploration.body.length > 0;
+}
+
+function renderExplorationStory(exploration) {
+  const coverImage = exploration.coverImage || exploration.image;
+  const coverAlt = exploration.coverAlt || exploration.title;
+
+  return `
+    <div class="design-preview-story">
+      ${
+        coverImage
+          ? `<figure class="article-media">
+              <img src="${coverImage}" width="1440" height="900" alt="${coverAlt}" loading="lazy" decoding="async" />
+            </figure>`
+          : ""
+      }
+      ${exploration.body.map(renderBodyBlock).join("")}
+    </div>
+  `;
+}
+
 function renderCaseStudyServicesCta() {
   return `
     <aside class="case-study-services-cta">
@@ -203,13 +225,17 @@ function openExploration(exploration) {
   activeExploration = exploration;
   activeExplorationIndex = explorations.indexOf(exploration);
   activeCaseStudy = null;
+  const hasStory = hasExplorationStory(exploration);
   designPreviewTitle.textContent = exploration.title;
   const hasDescription = Boolean(exploration.description?.trim());
-  designPreviewDescription.textContent = hasDescription ? exploration.description : "";
-  designPreviewDescription.hidden = !hasDescription;
-  designPreviewVisual.innerHTML = `
-    <img class="design-preview-image" src="${exploration.image}" width="1600" height="1200" alt="${exploration.title}" loading="lazy" decoding="async" />
-  `;
+  designPreviewDescription.textContent = !hasStory && hasDescription ? exploration.description : "";
+  designPreviewDescription.hidden = hasStory || !hasDescription;
+  designPreviewModal.classList.toggle("has-story", hasStory);
+  designPreviewVisual.innerHTML = hasStory
+    ? renderExplorationStory(exploration)
+    : `
+      <img class="design-preview-image" src="${exploration.image}" width="1600" height="1200" alt="${exploration.title}" loading="lazy" decoding="async" />
+    `;
 
   const explorationPostUrl = exploration.postUrl || exploration.xUrl || "";
   const explorationPostLabel = exploration.postLabel || "View in X";
